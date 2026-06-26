@@ -20,7 +20,7 @@ function App() {
   const stats = [
     { label: "Total Users", value: "1,250" },
     { label: "Monthly Revenue", value: "$10,500" },
-    { label: "Active Prsojects", value: "80" },
+    { label: "Active Projects", value: "80" },
   ];
 
   const users = [
@@ -35,10 +35,16 @@ function App() {
 
   return (
     <PageLayout>
-      <input placeholder="Search Stats..." onChange={handleSearch} />
-      {filteredStats.map((stat, index) => (
-        <StatCard key={index} label={stat.label} value={stat.value} />
-      ))}
+      <input
+        className="w-full mb-4 px-4 py-2 rounded-lg bg-transparent border-2 border-gray-800 text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        placeholder="Search Stats..."
+        onChange={handleSearch}
+      />
+      <div className="grid grid-cols-3 gap-4 mb-8">
+        {filteredStats.map((stat, index) => (
+          <StatCard key={index} label={stat.label} value={stat.value} />
+        ))}
+      </div>
       <NotificationBell />
       <UserList users={users} />
     </PageLayout>
