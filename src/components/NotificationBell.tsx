@@ -1,7 +1,15 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function NotificationBell() {
   const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    if (count === 0) {
+      document.title = "SaaS Dashboard";
+    } else {
+      document.title = `(${count}) SaaS Dashboard`;
+    }
+  }, [count]);
 
   return (
     <div>

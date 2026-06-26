@@ -1,7 +1,8 @@
 import StatCard from "./components/StatCard";
 import NotificationBell from "./components/NotificationBell";
 import UserList from "./components/UserList";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import PageLayout from "./components/PageLayout";
 
 function App() {
   const [search, setSearch] = useState("");
@@ -9,10 +10,17 @@ function App() {
     setSearch(event.target.value);
   }
 
+  useEffect(() => {
+    console.log("Dashboard loaded");
+  }, []);
+  useEffect(() => {
+    console.log("User Searched for:", search);
+  }, [search]);
+
   const stats = [
     { label: "Total Users", value: "1,250" },
     { label: "Monthly Revenue", value: "$10,500" },
-    { label: "Active Projects", value: "80" },
+    { label: "Active Prsojects", value: "80" },
   ];
 
   const users = [
@@ -26,15 +34,14 @@ function App() {
   );
 
   return (
-    <>
-      <h1>SaaS Dashboard</h1>
-      <input placeholder="Search stats..." onChange={handleSearch} />
+    <PageLayout>
+      <input placeholder="Search Stats..." onChange={handleSearch} />
       {filteredStats.map((stat, index) => (
         <StatCard key={index} label={stat.label} value={stat.value} />
       ))}
       <NotificationBell />
       <UserList users={users} />
-    </>
+    </PageLayout>
   );
 }
 
