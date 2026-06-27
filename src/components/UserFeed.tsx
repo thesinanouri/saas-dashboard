@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 interface User {
   id: number;
@@ -7,49 +7,45 @@ interface User {
   phone: string;
 }
 
+async function fetchUsers(): Promise<User[]> {
+  const response = await fetch("https://jsonplaceholder.typicode.com/users");
+  if (!response.ok) {
+    throw new Error("Failed to fetch users");
+  }
+  return response.json();
+}
+
 export default function UserFeed() {
-  const [users, setUsers] = useState<User[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const {
+    data: users,
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ["users"],
+    queryFn: fetchUsers,
+  });
 
-  useEffect(() => {
-    fetch("https://jsonplaceholder.typicode.com/users")
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Failed to fetch users");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setUsers(data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setError(err.message);
-        setLoading(false);
-      });
-  }, []);
-
-  if (loading) {
+  if (isLoading) {
     return (
-      <div className="bg-gray-900 border border-gray-800 rounded-xl p-6 mb-8">
+      <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
         <p className="text-white/50">Loading users...</p>
       </div>
     );
   }
 
-  if (error) {
+  if (isError) {
     return (
-      <div className="bg-gray-900 border border-gray-800 rounded-xl p-6 mb-8">
-        <p className="text-white/400">{error}</p>
+      <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
+        <p className="text=white/400">{error.message}</p>
       </div>
     );
   }
 
-  if (users.length === 0) {
+  if (!users || users.length === 0) {
     return (
-      <div className="bg-gray-900 border border-gray-800 rounded-xl p-6 mb-8">
-        <p className="text-white/50">No users found.</p>
+      <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
+        <p className="text=white/50">No users found.</p>
       </div>
     );
   }
