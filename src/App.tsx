@@ -3,6 +3,7 @@ import NotificationBell from "./components/NotificationBell";
 import UserList from "./components/UserList";
 import { useState, useEffect } from "react";
 import PageLayout from "./components/PageLayout";
+import UserFeed from "./components/UserFeed";
 
 function App() {
   const [search, setSearch] = useState("");
@@ -47,6 +48,7 @@ function App() {
       </div>
       <NotificationBell />
       <UserList users={users} />
+      <UserFeed />
     </PageLayout>
   );
 }

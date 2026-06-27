@@ -10,7 +10,7 @@ interface UserListProps {
 
 function UserList({ users }: UserListProps) {
   return (
-    <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
+    <div className="bg-gray-900 border border-gray-800 rounded-xl p-6 mb-8">
       <h2 className="text-sm font-medium text-gray-400 mb-4">Team Members</h2>
       <div className="flex flex-col gap-2">
         {users.map((user) => (
